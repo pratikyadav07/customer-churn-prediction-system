@@ -7,4 +7,5 @@ streamlit
 requests
 python-dotenv
 python-jose
+altair==4.2.2
 passlib[bcrypt]
