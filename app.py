@@ -32,6 +32,7 @@ if "logged_in" in st.session_state:
         gender = st.selectbox("Gender", ["Male", "Female"])
         SeniorCitizen = st.selectbox("Senior Citizen", [0, 1])
         tenure = st.slider("Tenure (months)", 0, 72, 12)
+
         MonthlyCharges = st.number_input("Monthly Charges", min_value=0.0)
         TotalCharges = st.number_input("Total Charges", min_value=0.0)
 
@@ -54,16 +55,30 @@ if "logged_in" in st.session_state:
 
     if submitted:
 
-        input_data = pd.DataFrame({
-            "gender": [gender],
-            "SeniorCitizen": [SeniorCitizen],
-            "tenure": [tenure],
-            "MonthlyCharges": [MonthlyCharges],
-            "TotalCharges": [TotalCharges],
-            "Contract": [Contract],
-            "PaymentMethod": [PaymentMethod]
-        })
+        # Create dataframe with all required columns
+        input_data = pd.DataFrame([{
+            "Gender": gender,
+            "Senior Citizen": SeniorCitizen,
+            "Partner": "No",
+            "Dependents": "No",
+            "tenure": tenure,
+            "Phone Service": "Yes",
+            "Multiple Lines": "No",
+            "Internet Service": "Fiber optic",
+            "Online Security": "No",
+            "Online Backup": "No",
+            "Device Protection": "No",
+            "Tech Support": "No",
+            "Streaming TV": "No",
+            "Streaming Movies": "No",
+            "Contract": Contract,
+            "Paperless Billing": "Yes",
+            "Payment Method": PaymentMethod,
+            "Monthly Charges": MonthlyCharges,
+            "Total Charges": TotalCharges
+        }])
 
+        # Predict
         prediction = model.predict(input_data)[0]
 
         st.divider()
@@ -72,3 +87,4 @@ if "logged_in" in st.session_state:
             st.error("⚠️ Customer is likely to CHURN")
         else:
             st.success("✅ Customer is NOT likely to churn")
+            
