@@ -1,8 +1,14 @@
 import streamlit as st
 import joblib
 import pandas as pd
+import zipfile
+import os
 
-# Load trained model
+# -------- Load trained model from ZIP --------
+if not os.path.exists("model/churn_pipeline.pkl"):
+    with zipfile.ZipFile("model/churn_pipeline.zip", "r") as zip_ref:
+        zip_ref.extractall("model")
+
 model = joblib.load("model/churn_pipeline.pkl")
 
 st.set_page_config(page_title="Customer Churn Prediction", layout="centered")
@@ -87,4 +93,3 @@ if "logged_in" in st.session_state:
             st.error("⚠️ Customer is likely to CHURN")
         else:
             st.success("✅ Customer is NOT likely to churn")
-            
